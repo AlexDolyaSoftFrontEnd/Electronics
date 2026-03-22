@@ -94,56 +94,114 @@
   }
   
   /* ============================
-     MOBILE CART BUTTON
+     MOBILE CART BUTTON (IMPROVED)
      ============================ */
   .mobile-cart-btn {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    right: max(20px, env(safe-area-inset-right));
+    
     width: 56px;
     height: 56px;
     border-radius: 50%;
+    
     background-color: var(--pg-accent);
-    color: white;
+    color: #ffffff;
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+    
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+      0 10px 15px -3px rgba(0, 113, 227, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1); 
+    
     font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 100;
-    transition: transform var(--pg-transition-fast);
+    
+    /* Пружиниста анімація при наведенні */
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.2s ease,
+                background-color 0.3s ease;
+    
+    /* Запобігає виділенню тексту при швидких кліках */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
   
   .mobile-cart-btn:hover {
-    transform: scale(1.05);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+      0 10px 20px -5px rgba(0, 0, 0, 0.15), 
+      0 15px 25px -5px rgba(0, 113, 227, 0.4);
+  }
+  
+  .mobile-cart-btn:active {
+    color: #ffffff;
+    transform: scale(0.92);
+    box-shadow: 
+      0 2px 4px -1px rgba(0, 0, 0, 0.1), 
+      0 4px 6px -3px rgba(0, 113, 227, 0.2);
   }
   
   .mobile-cart-btn:focus-visible {
-    outline: 3px solid var(--pg-accent);
+    outline: 3px solid #ffffff;
     outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--pg-accent);
   }
   
+  /* Стан: Є товари в кошику */
   .mobile-cart-btn.has-items {
+    color: #ffffff;
     background-color: var(--pg-success);
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+      0 10px 15px -3px rgba(52, 199, 89, 0.4);
+    animation: pulse-attention 2s infinite;
   }
   
+  .mobile-cart-btn.has-items:hover {
+    animation: none; /* Зупинити пульсацію при наведенні */
+  }
+  
+  /* Бейдж (лічильник) */
   .cart-badge {
     position: absolute;
     top: -2px;
     right: -2px;
     background-color: var(--pg-danger);
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    min-width: 20px;
-    height: 20px;
-    border-radius: 10px;
+    color: #ffffff;
+    font-size: 11px; 
+    font-weight: 800;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid white;
+    border: 2px solid var(--pg-bg); /* Використовуємо змінну фону */
+    padding: 0 4px;
+    
+    /* Анімація появи */
+    animation: badge-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform-origin: center;
+    z-index: 2;
+  }
+  
+  /* Анімація пульсації для кошика з товарами */
+  @keyframes pulse-attention {
+    0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(52, 199, 89, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+  }
+  
+  /* Анімація появи бейджа */
+  @keyframes badge-pop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
   }
   
   /* ============================
@@ -671,6 +729,11 @@
     .cart-overlay {
       transition: none;
     }
+    
+    /* Вимикаємо пульсацію кошика для доступності */
+    .mobile-cart-btn.has-items {
+      animation: none;
+    }
   }
   
   /* High Contrast Mode Support */
@@ -692,7 +755,8 @@
   .view-toggle button,
   .category-btn,
   .cart-section,
-  .cart-overlay {
+  .cart-overlay,
+  .cart-badge {
     will-change: transform, opacity;
   }
   
