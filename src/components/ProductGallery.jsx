@@ -56,7 +56,6 @@ const ProductGallery = () => {
   if (status === 'loading') {
     return (
       <div className="loading-container">
-        <div className="loading-flag">🇺🇦</div>
         <div className="loading-spinner" />
         <p>Завантаження товарів...</p>
       </div>
