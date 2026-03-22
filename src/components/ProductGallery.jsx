@@ -124,13 +124,13 @@ const ProductGallery = () => {
             ))}
           </div>
           <div className="controls">
-            <select value={sortBy} onChange={(e)=>dispatch(setSortBy(e.target.value))}>
+            {/* <select value={sortBy} onChange={(e)=>dispatch(setSortBy(e.target.value))}>
               <option value="popular">За популярністю</option>
               <option value="newest">Новинки</option>
               <option value="price-asc">Ціна: низька → висока</option>
               <option value="price-desc">Ціна: висока → низька</option>
               <option value="rating">За рейтингом</option>
-            </select>
+            </select> */}
             <span>Знайдено: <strong>{filteredProducts.length}</strong></span>
             {(filter || category!=='all') && (
               <button className="reset-btn" onClick={()=>dispatch(resetFilters())}>🔄 Скинути</button>

@@ -284,6 +284,7 @@
   
   .category-scroll {
     display: flex;
+    flex-wrap: nowrap; /* FIX: Категорії в один ряд */
     gap: 8px;
     overflow-x: auto;
     padding-bottom: 4px;
@@ -330,12 +331,17 @@
   /* Controls */
   .controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Змінено для коректної роботи margin-left: auto */
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
     font-size: 14px;
     color: var(--pg-text-secondary);
+  }
+  
+  .controls span {
+    margin-left: auto; /* FIX: "Знайдено:" справа */
+    font-weight: 500;
   }
   
   .controls select {
@@ -583,6 +589,11 @@
     .controls {
       flex-direction: column;
       align-items: stretch;
+    }
+    
+    .controls span {
+      margin-left: 0; /* На мобільному вирівнювання стандартне */
+      text-align: left;
     }
     
     .controls select {
